@@ -1,0 +1,471 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url("images/bg.gif") no-repeat center center fixed;
+    background-size: cover;
+    font-family: sans-serif;
+}
+
+html {
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+}
+
+.page {
+    width: 90%;
+    max-width: 1200px;
+    margin: 50px auto 0;
+}
+
+.body {
+    margin-top: 1%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-sizing: border-box;
+    min-height: 600px;
+    width: 100%;
+}
+
+.navBar{
+    background-color: #111827;
+    border: 1px solid #4f46e5;
+    border-radius: 12px;
+    margin: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    width: 100%;
+}
+
+.navBar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    gap: 30px;
+}
+
+.navBar ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    position: relative;
+    font-size: 24px;
+
+}
+.navBar ul li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    width: 0;
+    height: 2px;
+    background-color: #6366f1;
+    transition: width 0.25s ease;
+}
+.navBar ul li a:hover:after{
+    width: 100%;
+}
+.navBar ul li a:hover {
+    background-color: rgba(255,255,255,0.05);
+    border-radius: 8px;
+}
+
+.navBar ul li a.active::after {
+    width: 100%;
+}
+
+.navBar li.home a{
+    padding: 0;
+    background: none;
+}
+
+.navBar li.home img{
+    height: 60px;
+    display: block;
+    margin-top: -6px;
+}
+
+
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 40px;
+}
+.slider-container {
+    width: fit-content;
+    margin: 20px auto;
+    border: 2px solid blue;
+    border-radius: 9px;
+    padding: 0px;
+    position: relative;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.1);
+}
+
+#sliderImage {
+    width: 800px;
+    height: 600px;
+    object-fit: cover; 
+    border-radius: 8px;
+    display: block;
+}
+
+.slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: white;
+    font-size: 32px;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.slide-btn.left {
+    left: 0px;
+}
+
+.slide-btn.right {
+    right: 0px;
+}
+
+.slide-btn:hover {
+    background-color: rgba(0, 0, 0, 0.24);
+}
+
+
+.search-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    min-width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-family: inherit;
+}
+
+.search-card h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: left;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.field label {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #555;
+}
+
+.field input {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input:focus {
+    border-color: #5c6bc0; 
+    box-shadow: 0 0 0 2px rgba(92,107,192,0.25);
+}
+
+.searchBtn {
+    margin-top: 4px;
+    padding: 10px 0;
+    width: 100%;
+    background: #111827;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.searchBtn:hover {
+    background: #3f51b5;
+    transform: translateY(-1px);
+}
+
+/* Autocomplete listesi */
+.autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.autocomplete-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.autocomplete-item:hover {
+    background-color: #f5f5f5;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
+}
+
+.field {
+    position: relative;
+}
+
+.footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    color: #e5e7eb;
+    padding: 24px 32px;
+    margin: 60px 0 20px;
+    max-width: 1200px;
+    background-color: #111827;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+    border: 1px solid #4f46e5;
+    border-radius: 12px;
+
+}
+
+.footer ul{
+    list-style: none;
+    padding: 0;;
+    margin: 0;
+}
+
+.footer ul li:first-child{
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.footer ul li{
+    font-size: 14px;
+    margin: 2px 0;
+    color: #d1d5db;
+}
+
+.ikon {
+    display: flex;      
+    gap: 12px;          
+    margin-top: 8px;    
+    align-items: center;
+}
+
+.ikon img{
+    width: 24px;
+    height: 24px;
+    opacity: 0.9;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.ikon img:hover{
+    opacity: 1;
+    transform: translateY(-1px) scale(1.05);
+}
+
+.iletisim{
+    align-items: center;
+
+}
+
+.Faq{
+    width: 90%;
+    max-width: 1200px;
+}
+.Faq h1 {
+    color: #111827;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.Faq h5 {
+    text-align: left;
+}
+.Faq p {
+    text-align: left;
+
+}
+.about p{
+    text-align: left;
+}
+.about{
+    width: 90%;
+    max-width: 1200px;
+}
+.about img{
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: block;
+    
+}
+
+.tours-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 20px;
+    padding: 20px;
+}
+
+/* --- 4. KART TASARIMI --- */
+.tour-card {
+    background-color: rgba(255, 255, 255, 0.95); 
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 300px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+    transition: transform 0.2s, border 0.3s, box-shadow 0.3s, background-color 0.3s;
+}
+
+.tour-card:hover {
+    transform: translateY(-5px); 
+}
+
+.tour-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block; 
+    border-bottom: 1px solid #ddd;
+}
+
+.tour-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1; 
+}
+
+.tour-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+.tour-desc {
+    font-size: 13px;
+    color: #666;
+    height: 40px; 
+    overflow: hidden;
+}
+
+
+.tour-meta {
+    font-size: 12px;
+    color: #444;
+    background-color: #f1f8ff; 
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+}
+
+.meta-item i {
+    color: #007BFF; 
+    width: 15px; 
+    text-align: center;
+}
+
+.tour-footer {
+    margin-top: auto; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.tour-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0056b3; 
+}
+
+.btn-buy {
+    background-color: blue;
+    color: white;
+    padding: 8px 20px;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.btn-buy:hover:not(:disabled) {
+    background-color: darkblue;
+}
+
+.btn-buy:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Tur kartı vurgulama efekti */
+.tour-card.highlighted {
+    border: 3px solid #fbbf24 !important;
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.8), 0 8px 16px rgba(251, 191, 36, 0.4) !important;
+    transform: scale(1.05);
+    background-color: #fef9e7 !important;
+    animation: pulse-highlight 2s ease-in-out;
+}
+
+@keyframes pulse-highlight {
+    0% {
+        box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 15px rgba(251, 191, 36, 0);
+    }
+    100% {
+        box-shadow: 0 0 30px rgba(251, 191, 36, 0.8), 0 8px 16px rgba(251, 191, 36, 0.4);
+    }
+}

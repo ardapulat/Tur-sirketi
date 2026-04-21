@@ -1,0 +1,321 @@
+<?php require_once 'config.php'; ?>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biletlerim - PRU Turizm</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="images/icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+        }
+        .user-info span {
+            color: #111827;
+            font-weight: 500;
+        }
+        .user-info a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .user-info a:hover {
+            text-decoration: underline;
+        }
+        .login-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .login-link a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .tours-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+        }
+        .tour-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .tour-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .tour-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .tour-content {
+            padding: 20px;
+        }
+        .tour-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 10px;
+        }
+        .tour-desc {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .tour-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .meta-item {
+            color: #555;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .meta-item i {
+            color: #4f46e5;
+        }
+        .tour-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .tour-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4f46e5;
+        }
+        .empty-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 18px;
+        }
+        .empty-message i {
+            font-size: 64px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        .purchase-date {
+            background: #f0f9ff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: #0369a1;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        .btn-cancel {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-cancel:hover {
+    background-color: #c82333;
+}
+
+    </style>
+</head>
+<body>
+    <?php 
+    if (isLoggedIn()): 
+        $user = getUserInfo();
+    ?>
+        <div class="user-info">
+            <span>Hoşgeldin, <?php echo htmlspecialchars($user['full_name']); ?>!</span>
+            <a href="logout.php">Çıkış Yap</a>
+            <a href="admin_login.php" style="margin-left: 15px;">Admin</a>
+        </div>
+    <?php else: ?>
+        <div class="login-link">
+            <a href="login.html">Giriş Yap</a>
+            <a href="admin_login.php" style="margin-left: 15px;">Admin</a>
+        </div>
+    <?php endif; ?>
+
+    <div class="page">
+        <div class="navBar">
+            <ul>
+                <li><a href="tours.html">Turlar</a></li>
+                <li><a href="biletlerim.html">Biletlerim</a></li>
+                <li class="home"><a href="index.php"><img src="images/icon.png" alt="home" width="60px"></a></li>
+                <li><a href="aboutus.html">Hakkımızda</a></li>
+                <li><a href="faq.html">Destek</a></li>
+            </ul>
+        </div>
+
+        <div class="body">
+            <h1 style="text-align: center; color: #111827; margin: 30px 0;">Biletlerim</h1>
+            
+            <div class="tours-container">
+                <?php
+                if (isLoggedIn()): 
+                    $user = getUserInfo();
+                    $conn = getDBConnection();
+                    
+                    // Kullanıcının satın aldığı turları al
+                    $stmt = $conn->prepare("SELECT p.*, t.description, t.date, t.from_location, t.to_location, t.image_path 
+                                            FROM purchases p 
+                                            LEFT JOIN tours t ON p.tour_name = t.tour_name 
+                                            WHERE p.user_id = ? 
+                                            ORDER BY p.purchase_date DESC");
+                    $stmt->bind_param("i", $user['id']);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    
+                    if ($result->num_rows > 0):
+                        while ($purchase = $result->fetch_assoc()):
+                            // Tur adına göre doğru resmi bul
+                            $image_path = $purchase['image_path'];
+                            if (empty($image_path)) {
+                                // Tur adına göre varsayılan resimleri belirle
+                                $tour_name = strtolower($purchase['tour_name']);
+                                $default_images = [
+                                    'kapadokya' => 'images/Kapadokya.jpg',
+                                    'rize' => 'images/Karadeniz.jpg',
+                                    'izmir' => 'images/Ege.jpg',
+                                    'antalya' => 'images/Akdeniz.jpg',
+                                    'erzurum' => 'images/erzurum.webp',
+                                    'gap' => 'images/GAP.jpg',
+                                    'zonguldak' => 'images/BatiKaradeniz.jpg',
+                                    'likya' => 'images/Likya.jpg',
+                                    'uludağ' => 'images/Uludağ.jpg',
+                                    'uludag' => 'images/Uludağ.jpg',
+                                    'yunan' => 'images/Yunan.jpg',
+                                    'balkanlar' => 'images/Balkanlar.jpg',
+                                    'karadeniz yayla' => 'images/karadenizyla.jpg',
+                                    'karadeniz' => 'images/karadenizyla.jpg',
+                                    'marmaris' => 'images/Marmaris.jpg',
+                                    'fırtına' => 'images/Fırtına.jpg',
+                                    'firtina' => 'images/Fırtına.jpg',
+                                    'pamukkale' => 'images/Pamukkale.jpg',
+                                    'safranbolu' => 'images/safranbolu.webp',
+                                    'ayvalık' => 'images/Cunda.jpg',
+                                    'ayvalik' => 'images/Cunda.jpg',
+                                    'assos' => 'images/Assos.jpg'
+                                ];
+                                
+                                $image_path = 'images/img1.png'; // Varsayılan
+                                foreach ($default_images as $key => $img) {
+                                    if (strpos($tour_name, $key) !== false) {
+                                        $image_path = $img;
+                                        break;
+                                    }
+                                }
+                            }
+                            $purchase_date = new DateTime($purchase['purchase_date']);
+                            $formatted_date = $purchase_date->format('d.m.Y H:i');
+                ?>
+                    <div class="tour-card">
+                        <img src="<?php echo htmlspecialchars($image_path); ?>" alt="<?php echo htmlspecialchars($purchase['tour_name']); ?>" class="tour-image">
+                        <div class="tour-content">
+                            <h3 class="tour-title"><?php echo htmlspecialchars($purchase['tour_name']); ?></h3>
+                            <?php if ($purchase['description']): ?>
+                                <p class="tour-desc"><?php echo htmlspecialchars($purchase['description']); ?></p>
+                            <?php endif; ?>
+                            <div class="tour-meta">
+                                <?php if ($purchase['date']): ?>
+                                    <span class="meta-item"><i class="fas fa-calendar-alt"></i> <?php echo htmlspecialchars($purchase['date']); ?></span>
+                                <?php endif; ?>
+                                <?php if ($purchase['from_location'] && $purchase['to_location']): ?>
+                                    <span class="meta-item"><i class="fas fa-route"></i> <?php echo htmlspecialchars($purchase['from_location']); ?> <i class="fas fa-arrow-right"></i> <?php echo htmlspecialchars($purchase['to_location']); ?></span>
+                                <?php endif; ?>
+                            </div>
+                            <div class="purchase-date">
+                                <i class="fas fa-shopping-cart"></i> Satın Alındı: <?php echo $formatted_date; ?>
+                            </div>
+                            <div class="tour-footer">
+                                <?php if ($purchase['tour_price']): ?>
+                                    <span class="tour-price"><?php echo number_format($purchase['tour_price'], 0); ?> ₺</span>
+                                <?php endif; ?>
+                                <span style="color: #28a745; font-weight: 600;"><i class="fas fa-check-circle"></i> Satın Alındı</span>
+                                <form method="POST" action="cancel_ticket.php"
+                                onsubmit="return confirm('Bu bileti iptal etmek istediğinize emin misiniz?');">
+                                <input type="hidden" name="ticket_id" value="<?= (int)$purchase['id']; ?>">
+                                    <button type="submit" class="btn-cancel">Bileti İptal Et</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <?php
+                        endwhile;
+                    else:
+                ?>
+                    <div class="empty-message" style="grid-column: 1 / -1;">
+                        <i class="fas fa-ticket-alt"></i>
+                        <h2>Henüz biletiniz bulunmamaktadır</h2>
+                        <p>Turlar sayfasından tur satın alabilirsiniz.</p>
+                        <a href="tours.html" style="display: inline-block; margin-top: 20px; padding: 12px 24px; background: #4f46e5; color: white; text-decoration: none; border-radius: 6px;">Turları Görüntüle</a>
+                    </div>
+                <?php
+                    endif;
+                    $stmt->close();
+                    $conn->close();
+                else:
+                ?>
+                    <div class="empty-message" style="grid-column: 1 / -1;">
+                        <i class="fas fa-lock"></i>
+                        <h2>Biletlerinizi görmek için giriş yapmalısınız</h2>
+                        <a href="login.html" style="display: inline-block; margin-top: 20px; padding: 12px 24px; background: #4f46e5; color: white; text-decoration: none; border-radius: 6px;">Giriş Yap</a>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="footer">
+            <ul class="iletisim">
+                <li>İletişim Bilgilerimiz</li>
+                <li><img src="images/mail.png" alt="mail" width="18px">PRU@gmail.com</li>
+                <li><img src="images/ph.png" alt="phone" width="18px">Tel: (0216) 581 00 50</li>
+                <li><img src="images/ph.png" alt="phone" width="18px">Tel: (0216) 581 00 51</li>
+            </ul>
+            <ul class="adres">
+                <li>Adresimiz</li>
+                <li>📍Postane, Eflatun Sk. No:8, 34940 Tuzla/İstanbul</li>
+                <li class="ikon">
+                    <a href="instagram.com" target="_blank"><img src="images/ins.png" alt="Instagram"></a>
+                    <a href="x.com" target="_blank"><img src="images/x.webp" alt="Twitter"></a>
+                    <a href="facebook.com" target="_blank"><img src="images/fb.png" alt="Facebook"></a>
+                    <a href="youtube.com" target="_blank"><img src="images/youtube.png" alt="Youtube"></a>
+                    <a href="web.whatsapp.com" target="_blank"><img src="images/wp.png" alt="Whatsapp"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

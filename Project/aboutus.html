@@ -1,0 +1,115 @@
+<?php require_once 'config.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css">
+        <title>PRU Hakkımızda</title>
+        <link rel="icon" type="image/x-icon" href="images/icon.png">
+                        <style>
+            .user-info {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 10px 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                z-index: 1000;
+            }
+            .user-info span {
+                color: #111827;
+                font-weight: 500;
+            }
+            .user-info a {
+                color: #4f46e5;
+                text-decoration: none;
+                font-size: 14px;
+            }
+            .user-info a:hover {
+                text-decoration: underline;
+            }
+            .login-link {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 10px 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                z-index: 1000;
+            }
+            .login-link a {
+                color: #4f46e5;
+                text-decoration: none;
+                font-weight: 500;
+            }
+            .login-link a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <?php 
+    if (isLoggedIn()): 
+        $user = getUserInfo();
+    ?>
+        <div class="user-info">
+            <span>Hoşgeldin, <?php echo htmlspecialchars($user['full_name']); ?>!</span>
+            <a href="logout.php">Çıkış Yap</a>
+            <a href="admin_login.php" style="margin-left: 15px;">Admin</a>
+        </div>
+    <?php else: ?>
+        <div class="login-link">
+            <a href="login.html">Giriş Yap</a>
+            <a href="admin_login.php" style="margin-left: 15px;">Admin</a>
+        </div>
+    <?php endif; ?>
+
+        <div class="page">
+            <div class="navBar">
+                <ul>
+                    <li><a href="tours.html">Turlar</a></li>
+                    <li><a href="biletlerim.html">Biletlerim</a></li>
+                    <li class="home"><a href="index.html"><img src="images/icon.png" alt="home" width="60px"></a></li>
+                    <li><a href="aboutus.html">Hakkımızda</a></li>
+                    <li><a href="faq.html">Destek</a></li>
+                    
+                </ul>
+            </div>
+            <div class="body">
+            <div class="about">
+                <h1>Hakkımızda</h1>
+                <p>PRU Turizm, seyahati bir ihtiyaçtan öte, ayrıcalıklı bir yaşam deneyimi olarak gören vizyonuyla kurulmuştur. Turizm sektöründeki yenilikleri yakından takip eden, kalite standartlarını sürekli yükselten ve misafir memnuniyetini her şeyin üzerinde tutan bir anlayışla hizmet vermekteyiz.</p>
+                <p>Yurt içi ve yurt dışı tur organizasyonları, VIP transfer hizmetleri ve kişiye özel seyahat çözümleriyle; her yolculuğu detaylarına kadar planlıyor, konforu ve güvenliği kusursuz bir şekilde bir araya getiriyoruz. Modern ve donanımlı araç filomuz, alanında uzman sürücülerimiz ve profesyonel operasyon ekibimiz sayesinde misafirlerimize üst düzey bir hizmet sunuyoruz.</p>
+                <p>PRU Turizm için lüks; yalnızca konforlu araçlar ya da seçkin rotalar değil, her anında hissedilen özen, zarafet ve güven demektir. Seyahatin ilk planlama aşamasından yolculuğun tamamlanmasına kadar geçen süreçte, misafirlerimizin beklentilerini aşmayı hedefler; her detayın kusursuz olması için titizlikle çalışırız.</p>
+                <p>Sürdürülebilir turizm ilkelerini benimseyen markamız, doğaya ve kültürel değerlere saygılı bir hizmet anlayışıyla hareket ederken; yenilikçi bakış açısı ve güçlü iş ortaklıklarıyla sektörde fark yaratmayı amaçlamaktadır.</p>
+                <p>PRU Turizm olarak hedefimiz; misafirlerimize yalnızca bir yolculuk değil, prestijli, güvenli ve unutulmaz bir deneyim sunmak ve her seyahatten sonra akıllarda kaliteyle anılan bir marka olmaktır.</p>
+                <img src="images/bus.png" alt="Prubus">
+            </div>
+            </div>
+            <div class="footer">
+                <ul class="iletisim">
+                    <li>İletişim Bilgilerimiz</li>
+                    <li><img src="images/mail.png" alt="mail" width="18px">PRU@gmail.com</li>
+                    <li><img src="images/ph.png" alt="phone" width="18px">Tel: (0216) 581 00 50</li>
+                    <li><img src="images/ph.png" alt="phone" width="18px">Tel: (0216) 581 00 51</li>
+                </ul>
+                <ul class="adres">
+                    <li>Adresimiz</li>
+                    <li>📍Postane, Eflatun Sk. No:8, 34940 Tuzla/İstanbul</li>
+                    <li class="ikon">
+                        <a href="instagram.com" target="_blank"><img src="images/ins.png" alt="Instagram"></a>
+                        <a href="x.com" target="_blank"><img src="images/x.webp" alt="Twitter"  ></a>
+                        <a href="facebook.com" target="_blank"><img src="images/fb.png" alt="Facebook"  ></a>
+                        <a href="youtube.com" target="_blank"><img src="images/youtube.png" alt="Youtube"  ></a>
+                        <a href="web.whatsapp.com" target="_blank"><img src="images/wp.png" alt="Whatsapp"></a></li>
+                </ul>
+            </div>
+            </div>
+        <script src="script.js"></script>
+    </body>
+</html>

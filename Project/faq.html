@@ -1,0 +1,133 @@
+<?php require_once 'config.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css">
+        <title>PRU Destek</title>
+        <link rel="icon" type="image/x-icon" href="images/icon.png">
+                <style>
+            .user-info {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 10px 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                z-index: 1000;
+            }
+            .user-info span {
+                color: #111827;
+                font-weight: 500;
+            }
+            .user-info a {
+                color: #4f46e5;
+                text-decoration: none;
+                font-size: 14px;
+            }
+            .user-info a:hover {
+                text-decoration: underline;
+            }
+            .login-link {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 10px 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                z-index: 1000;
+            }
+            .login-link a {
+                color: #4f46e5;
+                text-decoration: none;
+                font-weight: 500;
+            }
+            .login-link a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <?php 
+    if (isLoggedIn()): 
+        $user = getUserInfo();
+    ?>
+        <div class="user-info">
+            <span>Hoşgeldin, <?php echo htmlspecialchars($user['full_name']); ?>!</span>
+            <a href="logout.php">Çıkış Yap</a>
+            <a href="admin_login.php" style="margin-left: 15px;">Admin</a>
+        </div>
+    <?php else: ?>
+        <div class="login-link">
+            <a href="login.html">Giriş Yap</a>
+            <a href="admin_login.php" style="margin-left: 15px;">Admin</a>
+        </div>
+    <?php endif; ?>
+        <div class="page">
+            <div class="navBar">
+                <ul>
+                    <li><a href="tours.html">Turlar</a></li>
+                    <li><a href="biletlerim.html">Biletlerim</a></li>
+                    <li class="home"><a href="index.html"><img src="images/icon.png" alt="home" width="60px"></a></li>
+                    <li><a href="aboutus.html">Hakkımızda</a></li>
+                    <li><a href="faq.html">Destek</a></li>
+                    
+                </ul>
+            </div>
+            <div class="body">
+            <div class="Faq">
+                <h1 >Sıkça Sorulan Sorular (SSS)</h1>
+                <h5 >1. Otobüs bileti nasıl satın alabilirim?</h5>
+                <p>İnternet Sitemizden veya bizleri arayarak kolayca otobüs bileti satın alabilirsiniz. Satın alma sonrası biletiniz tarafınıza e-posta ve WhatsApp üzerinden dijital olarak gönderilir. Tüm ödemeler Pos cihazları, İyzico ve PayTR altyapısıyla güvence altındadır.</p>
+                <h5 >2. Kapı vizesi nedir? Nasıl başvuru yapılır?</h5>
+                <p>Kapı vizesi, Schengen vizesi olmayan Türkiye Cumhuriyeti vatandaşları için Yunanistan'ın Ege adalarına geçici olarak sunduğu kolaylaştırılmış vize türüdür. Pasaport fotokopiniz ve diğer belgelerle başvurabilirsiniz. Başvuru için önerilen süre: seyahatten 10 gün önce.</p>
+                <h5 >3. Seyahatlerde pasaport zorunlu mu?</h5>
+                <p>Yurtiçi veya yurtdışı seyahat seçeneklerimize göre değişmektedir. Yeşil pasaportlular için vize muafiyeti vardır. Umuma mahsus pasaport sahiplerinin Schengen ya da kapı vizesi alması gerekir.</p>
+                <h5 >4. Rezervasyonumu nasıl iptal edebilirim?</h5>
+                <p>Telefondan iletişim kurarak politikamıza uygun şartlarda iptal edebilirsiniz. Promosyonlu ürünlerde iptal hakkı bulunmayabilir. Detaylı bilgi için müşteri hizmetlerimize ulaşabilirsiniz.</p>
+                <h5>5. Ödeme yöntemleri nelerdir?</h5>
+                <p>Kredi/Banka Kartı (İyzico & PayTR),
+                    Banka Havalesi / EFT,
+                    Ofisimizde Nakit.
+                    Tüm işlemler 3D Secure ve SSL sertifikası ile güvence altındadır.</p>
+                <h5>6. Konaklama yapılan oteller hangileri?</h5>
+                <p>Turlarımızda genellikle 4 veya 5 yıldızlı tesisler tercih edilmektedir.</p>
+
+                <h5>7. Tur fiyatına neler dahil?</h5>
+                <p>Otel konaklaması (çok günlük turlarda),
+                    Rehberlik hizmeti,
+                    Seyahat sigortası,
+                    Bazı turlarda öğle yemeği veya kahvaltı.</p>
+                <h5>8. Online satın aldığım hizmetlerin faturası ne zaman kesilir?</h5>
+                <p>Faturanız, ödeme tamamlandıktan sonra 24 saat içinde e-posta adresinize gönderilir. Talep üzerine e-arşiv PDF formatında sunulur.</p>
+
+
+            </div>
+            </div>
+            <div class="footer">
+                <ul class="iletisim">
+                    <li>İletişim Bilgilerimiz</li>
+                    <li><img src="images/mail.png" alt="mail" width="18px">PRU@gmail.com</li>
+                    <li><img src="images/ph.png" alt="phone" width="18px">Tel: (0216) 581 00 50</li>
+                    <li><img src="images/ph.png" alt="phone" width="18px">Tel: (0216) 581 00 51</li>
+                </ul>
+                <ul class="adres">
+                    <li>Adresimiz</li>
+                    <li>📍Postane, Eflatun Sk. No:8, 34940 Tuzla/İstanbul</li>
+                    <li class="ikon">
+                        <a href="instagram.com" target="_blank"><img src="images/ins.png" alt="Instagram"></a>
+                        <a href="x.com" target="_blank"><img src="images/x.webp" alt="Twitter"  ></a>
+                        <a href="facebook.com" target="_blank"><img src="images/fb.png" alt="Facebook"  ></a>
+                        <a href="youtube.com" target="_blank"><img src="images/youtube.png" alt="Youtube"  ></a>
+                        <a href="web.whatsapp.com" target="_blank"><img src="images/wp.png" alt="Whatsapp"></a></li>
+                </ul>
+            </div>
+            </div>
+        <script src="script.js"></script>
+    </body>
+</html>
